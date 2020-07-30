@@ -51,8 +51,10 @@ void Generator::generate() {
     }
 
     *pos = '\0';
-    sprintf(packedSoPath, "%s_packed.so", this->clientSoPath);
+    // sprintf(packedSoPath, "%s_packed.so", this->clientSoPath);
+    sprintf(packedSoPath, "/Users/mac/Documents/my_projects/SoProtect/generator/1.so");
     *pos = '.';
+    printf("packedSoPath is: %s . ", packedSoPath);
 
     int clientFd, shellFd, packedFd;
     clientFd = open(this->clientSoPath, O_RDONLY);
@@ -67,6 +69,8 @@ void Generator::generate() {
     lseek(shellFd, 0, SEEK_SET);
     int size = this->copyFileContent(packedFd, shellFd);
     int pageAlignedSize = PAGE_END(size);
+    printf("gap between page is: %d . (%d - %d)", pageAlignedSize - size,pageAlignedSize,size);
+    
     int zero = 0;
     for (int i = size; i < pageAlignedSize; i++) {
         write(packedFd, &zero, 1);

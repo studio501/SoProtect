@@ -54,7 +54,7 @@
   
 ## Customizable Section: adapt those variables to suit your program.  
 ##==========================================================================  
-BITS = 64
+BITS = 32
   
 # The pre-processor and compiler options.  
 MY_CFLAGS =  
@@ -80,9 +80,11 @@ PROGRAM   =  ggenerator
 ##==========================================================================  
 
 ifeq ($(BITS), 64)
-  CFLAGS += -m64
+  CFLAGS = -m64
+  CXXFLAGS = -m64
 else
-  CFLAGS += -m32
+  CFLAGS = -m32
+  CXXFLAGS = -m32
 endif
   
 # The source file types (headers excluded).  
@@ -94,20 +96,20 @@ HDREXTS = .h .H .hh .hpp .HPP .h++ .hxx .hp
   
 # The pre-processor and compiler options.  
 # Users can override those variables from the command line.  
-CFLAGS  = -g -O2  
-CXXFLAGS= -g -O2  
+CFLAGS  = -g -O1  
+CXXFLAGS= -g -O1  
   
 # The C program compiler.  
-#CC     = gcc  
+CC     := gcc  
   
 # The C++ program compiler.  
-#CXX    = g++  
+CXX    := g++  
   
 # Un-comment the following line to compile C programs as C++ ones.  
 #CC     = $(CXX)  
   
 # The command used to delete file.  
-#RM     = rm -f  
+RM     = rm -f  
   
 ETAGS = etags  
 ETAGSFLAGS =  
@@ -124,7 +126,7 @@ ifeq ($(PROGRAM),)
   CUR_PATH_NAMES = $(subst /,$(SPACE),$(subst $(SPACE),_,$(CURDIR)))  
   PROGRAM = $(word $(words $(CUR_PATH_NAMES)),$(CUR_PATH_NAMES))  
   ifeq ($(PROGRAM),)  
-    PROGRAM = a.out  
+	PROGRAM = a.out  
   endif  
 endif  
 ifeq ($(SRCDIRS),)  
